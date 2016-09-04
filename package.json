@@ -1,9 +1,9 @@
 {
-  "name": "test",
-  "version": "1.0.0",
-  "description": "Test project for using express",
-  "main": "main.js",
-  "author": "Robert",
+  "name": "Work order system",
+  "version": "0.1.2",
+  "description": "A demo of using Node JS, Express, React, MongoDB and REST API",
+  "main": "app.js",
+  "author": "RT",
   "license": "ISC",
   "dependencies": {
     "babel": "^6.5.2",
@@ -15,5 +15,9 @@
     "pug": "^2.0.0-beta6",
     "socket.io": "^1.4.8",
     "underscore": "^1.8.3"
+  },
+  "repository" :{ 
+    "type" : "git",
+    "url" : "https://github.com/baybird/nodejs-express-react-mongo.git"
   }
 }
