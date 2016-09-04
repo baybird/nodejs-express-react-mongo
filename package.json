@@ -1,0 +1,19 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "Test project for using express",
+  "main": "main.js",
+  "author": "Robert",
+  "license": "ISC",
+  "dependencies": {
+    "babel": "^6.5.2",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.9",
+    "mongoskin": "^2.1.0",
+    "multer": "^1.2.0",
+    "pug": "^2.0.0-beta6",
+    "socket.io": "^1.4.8",
+    "underscore": "^1.8.3"
+  }
+}
