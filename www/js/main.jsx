@@ -1,7 +1,7 @@
-//'use strict';
+'use strict';
 
 
-//var app; // To declare app as a global variable
+var app; // To declare app as a global variable
 
 /******************* List *************************/
 var WorkList = React.createClass({

@@ -34,4 +34,4 @@ http://localhost
 ```
 
 ## Demo
-http://react.oppzo.com
+http://54.244.172.209/
