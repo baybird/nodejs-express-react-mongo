@@ -1,5 +1,5 @@
 {
-  "name": "Work order system",
+  "name": "Demo",
   "version": "0.1.2",
   "description": "A demo of using Node JS, Express, React, MongoDB and REST API",
   "main": "app.js",
