@@ -278,6 +278,5 @@ select{
 .list tr:nth-child(odd){ 
   background: #F4F3F3;
 }
-/*  Define the background color for all the EVEN background rows  */
 .list tr:nth-child(even){
   background: #E3EFF5;

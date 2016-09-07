@@ -9,7 +9,6 @@ var db = require( '../libs/mongo' );
 var collection = db.collection('works');
 
 var ObjectID = require('mongodb').ObjectID;
-//console.log(db)
 
 // Get one order
 router.get('/get/:id', function(req, res, next) {
@@ -43,8 +42,7 @@ router.get('/:status/:sortingKey/:sortingOrder', function(req, res, next) {
     sorting[req.params.sortingKey] = parseInt(req.params.sortingOrder);
   }
 
-  console.log(sorting);
-  
+
   collection.find(query).sort(sorting).toArray(function(err, result) {
     if (err) {
       throw err;

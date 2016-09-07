@@ -3,6 +3,7 @@ var func = {
     var fmTime  = new Date(timeStr);
     var nowTime = new Date();
 
+    // Convert milliseconds to minutes 
     var minutes = (nowTime - fmTime)/1000/60;
 
     var duration;
