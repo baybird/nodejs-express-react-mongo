@@ -34,4 +34,5 @@ http://localhost
 ```
 
 ## Demo
-http://54.244.172.209/
+http://54.244.172.209/ 
+For the best experience, recommend using the latest version of Chrome or Firefox.
