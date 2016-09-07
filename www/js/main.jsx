@@ -51,21 +51,37 @@ var WorkList = React.createClass({
 
   },
 
-  apiGetList: function(keyword=null, status='all', sortingKey='id', sortingOrder=1){
-    var apiUrl=this.state.apiUrl+'/'+status+'/'+sortingKey+'/'+sortingOrder;  ;
 
+
+  apiGetList: function(keyword, status, sortingKey, sortingOrder){
+
+    if (typeof keyword == 'undefined'){
+      keyword = null
+    }
+
+    if (typeof status == 'undefined'){
+      status = 'all'
+    }
+
+    if (typeof sortingKey == 'undefined'){
+      sortingKey = 'id'
+    }
+
+    if (typeof sortingOrder == 'undefined'){
+      sortingOrder = 1
+    }
+
+    var apiUrl=this.state.apiUrl+'/'+status+'/'+sortingKey+'/'+sortingOrder; 
 
     if(keyword){
       apiUrl += '/'+keyword;   
     }
 
-
-
     this.serverRequest = $.get(apiUrl, function (result) {
-      this.setState({
-        items: result,
-      });
-    }.bind(this));
+        this.setState({
+          items: result
+        })
+    }.bind(this));  
   },
 
   updateOrder: function(id){
@@ -231,7 +247,7 @@ var Dialog = React.createClass({
 
       $.ajax({
         method: "GET",
-        url: "/api/get/"+orderId,
+        url: "/api/get/"+orderId
       }).done(function(ret){
         //console.log(ret.subject);
         that.refs.id.value = ret._id;
@@ -410,6 +426,8 @@ var App = React.createClass({
 
 app = ReactDOM.render(<App />, document.getElementById('app'));
 
+
+// socket.io
 var socket = io();
 
 // receving message

@@ -42,6 +42,8 @@ router.get('/:status/:sortingKey/:sortingOrder', function(req, res, next) {
   } else {
     sorting[req.params.sortingKey] = parseInt(req.params.sortingOrder);
   }
+
+  console.log(sorting);
   
   collection.find(query).sort(sorting).toArray(function(err, result) {
     if (err) {
@@ -108,7 +110,6 @@ router.get('/:status/:sortingKey/:sortingOrder/:keyword', function(req, res, nex
     res.send(output);
   });
 });
-
 
 // Add new order
 router.post('/insert', function(req, res, next){

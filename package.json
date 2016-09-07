@@ -1,13 +1,16 @@
 {
-  "name": "Demo",
-  "version": "0.1.2",
-  "description": "A demo of using Node JS, Express, React, MongoDB and REST API",
-  "main": "app.js",
-  "author": "RT",
+  "name": "test",
+  "version": "1.0.0",
+  "description": "Test project for using express",
+  "main": "main.js",
+  "author": "Robert",
   "license": "ISC",
   "dependencies": {
     "babel": "^6.5.2",
+    "babel-repl": "0.0.6",
     "body-parser": "^1.15.2",
+    "console-polyfill": "^0.2.2",
+    "es5-shim": "^4.5.9",
     "express": "^4.14.0",
     "mongodb": "^2.2.9",
     "mongoskin": "^2.1.0",
@@ -15,9 +18,5 @@
     "pug": "^2.0.0-beta6",
     "socket.io": "^1.4.8",
     "underscore": "^1.8.3"
-  },
-  "repository" :{ 
-    "type" : "git",
-    "url" : "https://github.com/baybird/nodejs-express-react-mongo.git"
   }
 }
