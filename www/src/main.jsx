@@ -532,7 +532,7 @@ function frame() {
         clearInterval(h);
     } else {
         width++; 
-        app.refs.prograssBar.setProgress(width+'%');
+        //app.refs.prograssBar.setProgress(width+'%');
     }
 }
 
