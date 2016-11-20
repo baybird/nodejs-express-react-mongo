@@ -413,13 +413,13 @@ var WorkOrder = React.createClass({
     });
   },
   componentDidUpdate: function(){
-    console.log('*** state updated ***');
-    console.log('order_status:'+ this.state.order_status);
+    //console.log('*** state updated ***');
+    //console.log('order_status:'+ this.state.order_status);
   },
   search: function(){
     var keyword = this.refs.keyword.value;
     var status  = this.refs.selected_status.value.toLowerCase();
-    console.log('status:'+ status);
+    //console.log('status:'+ status);
 
     this.setState({
       keyword: keyword,
@@ -463,28 +463,28 @@ var WorkOrder = React.createClass({
 });
 /********************* Work order - END *************************/
 
-/********************* Home - START *************************/
-var Home = React.createClass({
+/********************* Description - START *************************/
+var Description = React.createClass({
   render: function(){
     return (
-      <div>
-          This is a single page app. 
+      <div className="description">
+          This is a demo of single page app that built based on NodeJS, React JS, MongoDB and Express.
       </div>
     );
   }
 });
 
-/********************* Home - END *************************/
-var Dom = React.createClass({
+/********************* Contact - END *************************/
+var Home = React.createClass({
   render: function (){
     return (
       <div>
         <header>
           <h1>MERN Stack</h1>
-          <div>
-            <ul className="header">
-                <li><IndexLink to="/">Home</IndexLink></li>
-                <li><Link to="/workorder">Work Order</Link></li>
+          <div className="header">
+            <ul className="menu">                
+                <li><Link to="/workorder">App</Link></li>
+                <li><IndexLink to="/Description">Description</IndexLink></li>
             </ul>
           </div>
         </header>
@@ -503,19 +503,20 @@ var Dom = React.createClass({
 
 var { Router,
       Route,
+      hashHistory,
       IndexRoute,
       IndexLink,
       Link } = ReactRouter;
-
 
 app = ReactDOM.render(
   // Using browserHistory for removing # from URL 
   // Caused problem that can't refresh page.
   // history={browserHistory}
-  <Router> 
-    <Route path="/" component={Dom}>
-      <IndexRoute component={Home}/>
-      <Route path="workorder" component={WorkOrder} />
+  <Router history={hashHistory}> 
+    <Route path="/" component={Home}>
+      <IndexRoute component={WorkOrder} />
+      <Route path="description" component={Description}/> 
+      <Route  path="workorder" component={WorkOrder} />     
     </Route>
   </Router>,
 
@@ -531,7 +532,7 @@ function frame() {
         clearInterval(h);
     } else {
         width++; 
-        //app.refs.prograssBar.setProgress(width+'%');
+        app.refs.prograssBar.setProgress(width+'%');
     }
 }
 

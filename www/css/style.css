@@ -53,7 +53,16 @@ input,button, select{
 button{
   cursor: pointer;
 }
-
+.menu {
+    width: 300px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.menu li {
+    float: left;
+    width: 50%;
+    list-style-type: none;
+}
 .btn {
     background-color: #428bca;
     border-color: #357ebd;
@@ -295,3 +304,9 @@ select{
 }
 .list tr:nth-child(even){
   background: #E3EFF5;
+}
+
+/****************** Contact page**********************/
+.description {
+  padding: 2em;  
+}

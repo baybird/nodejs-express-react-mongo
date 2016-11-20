@@ -33,6 +33,11 @@ OR
 http://localhost
 ```
 
+Precompiling JSX
+```bash
+babel --presets es2015,react --watch www/src/ --out-dir www/js
+```
+
 ## Demo
 http://54.244.172.209/ 
 

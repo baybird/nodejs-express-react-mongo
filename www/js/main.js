@@ -550,13 +550,13 @@ var WorkOrder = React.createClass({
     };
   },
   componentDidUpdate: function componentDidUpdate() {
-    console.log('*** state updated ***');
-    console.log('order_status:' + this.state.order_status);
+    //console.log('*** state updated ***');
+    //console.log('order_status:'+ this.state.order_status);
   },
   search: function search() {
     var keyword = this.refs.keyword.value;
     var status = this.refs.selected_status.value.toLowerCase();
-    console.log('status:' + status);
+    //console.log('status:'+ status);
 
     this.setState({
       keyword: keyword,
@@ -627,22 +627,22 @@ var WorkOrder = React.createClass({
 });
 /********************* Work order - END *************************/
 
-/********************* Home - START *************************/
-var Home = React.createClass({
-  displayName: 'Home',
+/********************* Description - START *************************/
+var Description = React.createClass({
+  displayName: 'Description',
 
   render: function render() {
     return React.createElement(
       'div',
-      null,
-      'This is a single page app.'
+      { className: 'description' },
+      'This is a demo of single page app that built based on NodeJS, React JS, MongoDB and Express.'
     );
   }
 });
 
-/********************* Home - END *************************/
-var Dom = React.createClass({
-  displayName: 'Dom',
+/********************* Contact - END *************************/
+var Home = React.createClass({
+  displayName: 'Home',
 
   render: function render() {
     return React.createElement(
@@ -658,26 +658,26 @@ var Dom = React.createClass({
         ),
         React.createElement(
           'div',
-          null,
+          { className: 'header' },
           React.createElement(
             'ul',
-            { className: 'header' },
-            React.createElement(
-              'li',
-              null,
-              React.createElement(
-                IndexLink,
-                { to: '/' },
-                'Home'
-              )
-            ),
+            { className: 'menu' },
             React.createElement(
               'li',
               null,
               React.createElement(
                 Link,
                 { to: '/workorder' },
-                'Work Order'
+                'App'
+              )
+            ),
+            React.createElement(
+              'li',
+              null,
+              React.createElement(
+                IndexLink,
+                { to: '/Description' },
+                'Description'
               )
             )
           )
@@ -709,6 +709,7 @@ var Dom = React.createClass({
 var _ReactRouter = ReactRouter,
     Router = _ReactRouter.Router,
     Route = _ReactRouter.Route,
+    hashHistory = _ReactRouter.hashHistory,
     IndexRoute = _ReactRouter.IndexRoute,
     IndexLink = _ReactRouter.IndexLink,
     Link = _ReactRouter.Link;
@@ -720,11 +721,12 @@ app = ReactDOM.render(
 // history={browserHistory}
 React.createElement(
   Router,
-  null,
+  { history: hashHistory },
   React.createElement(
     Route,
-    { path: '/', component: Dom },
-    React.createElement(IndexRoute, { component: Home }),
+    { path: '/', component: Home },
+    React.createElement(IndexRoute, { component: WorkOrder }),
+    React.createElement(Route, { path: 'description', component: Description }),
     React.createElement(Route, { path: 'workorder', component: WorkOrder })
   )
 ), document.getElementById('app'));
@@ -737,7 +739,7 @@ function frame() {
     clearInterval(h);
   } else {
     width++;
-    //app.refs.prograssBar.setProgress(width+'%');
+    app.refs.prograssBar.setProgress(width + '%');
   }
 }
 
