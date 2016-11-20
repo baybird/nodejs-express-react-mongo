@@ -229,6 +229,21 @@ select{
 .caption{
   font-weight: bold;
 }
+
+/****************** Prograss bar *******************/
+.prograssBar {
+    background: #D4FCFB;
+    display: block;
+    height: 2px;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+.prograssBar .bar {
+    background: #09f4f0;
+    height: 2px;
+}
 /******************Table theme**********************/
 .list {
     border-collapse: collapse;

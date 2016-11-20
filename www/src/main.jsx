@@ -1,16 +1,15 @@
 'use strict';
 
-
-var app; // To declare app as a global variable
+/********************* Work order - START *************************/
+var Dom; // To declare WorkOrder as a global variable
 
 /******************* List *************************/
 var WorkList = React.createClass({
   getInitialState : function(){
     //console.log('getInitialState');
-
     return {
       items:[],
-      apiUrl: '/api'
+      apiUrl: '/api',
     }
   },
 
@@ -22,10 +21,8 @@ var WorkList = React.createClass({
       var sortingKeyArr = [];
     }
 
-
     //  1 to specify ascending order.
     // -1 to specify descending order.
-
     if(typeof sortingKeyArr[field] == 'undefined'){
       sortingKeyArr[field] = 1
     }else{
@@ -41,20 +38,17 @@ var WorkList = React.createClass({
       sortingKey: sortingKeyArr
     });
 
-
-
-    var keyword = app.refs.keyword.value;
-    var status  = app.refs.selected_status.value.toLowerCase();
+    var keyword = this.props.keyword;
+    var status  = this.props.order_status;
 
     // Call getListApi
     this.apiGetList(keyword, status, field, sortingKeyArr[field]);
 
   },
 
-
-
   apiGetList: function(keyword, status, sortingKey, sortingOrder){
-
+    // Setting default values
+    // By doing it on this way is to suppoert the compatibility in IE
     if (typeof keyword == 'undefined'){
       keyword = null
     }
@@ -131,7 +125,6 @@ var WorkList = React.createClass({
 
   // Rendering HTML
   render : function(){
-
     var sortingOrderTicket    = (<i className="fa fa-sort" aria-hidden="true"></i>);
     var sortingOrderPriority  = (<i className="fa fa-sort" aria-hidden="true"></i>);
     var sortingOrderSubject   = (<i className="fa fa-sort" aria-hidden="true"></i>);
@@ -288,7 +281,7 @@ var Dialog = React.createClass({
         }
       }).done(function(ret){
         if(ret.status==true){
-          app.refs.worklist.apiGetList();// Call list api
+          WorkOrder.refs.worklist.apiGetList();// Call list api
           that.closeDialog();// Close dialog
         }else{
           alert(ret.message);
@@ -306,7 +299,7 @@ var Dialog = React.createClass({
         }
       }).done(function(ret){
         if(ret.status==true){
-          app.refs.worklist.apiGetList();// Call list api
+          WorkOrder.refs.worklist.apiGetList();// Call list api
           that.closeDialog();// Close dialog
         }else{
           alert(ret.message);
@@ -383,11 +376,55 @@ var Dialog = React.createClass({
   }
 });
 
-/********************* App *************************/
-var App = React.createClass({
+
+var PrograssBar = React.createClass({
+  getInitialState: function(){
+    return({
+      width: '0%'
+    });
+  },
+
+  setProgress: function(progress){
+    this.setState({width: progress});
+  },
+
+  render: function(){
+    let width = this.state.width;
+
+    if (width == '100%'){
+      return (<div></div>);
+    }else{
+      return (
+        <div className="prograssBar">
+          <div className="bar" style={{width: width}}></div>
+        </div>
+      )      
+    }
+  
+  }
+});
+
+
+var WorkOrder = React.createClass({
+  getInitialState: function(){
+    return ({
+      keyword:"",
+      order_status:"all"
+    });
+  },
+  componentDidUpdate: function(){
+    console.log('*** state updated ***');
+    console.log('order_status:'+ this.state.order_status);
+  },
   search: function(){
     var keyword = this.refs.keyword.value;
-    var status = this.refs.selected_status.value.toLowerCase();
+    var status  = this.refs.selected_status.value.toLowerCase();
+    console.log('status:'+ status);
+
+    this.setState({
+      keyword: keyword,
+      order_status: status
+    });
 
     // Call getListApi in worklist component
     this.refs.worklist.apiGetList(keyword, status);
@@ -416,15 +453,87 @@ var App = React.createClass({
             <button type="button" id="btn_new" onClick={this.addNew} className='btn'>New</button>
           </div>       
         </nav>
-        <WorkList ref="worklist"/>
+        <WorkList ref="worklist" keyword={this.state.keyword} order_status={this.state.order_status} />
+        <PrograssBar ref="prograssBar"/>
         <Chat ref="chatWindow"/>
-        <div id="dialog_area"/>
+        <div id="dialog_area"/>        
+      </div>
+    );
+  }
+});
+/********************* Work order - END *************************/
+
+/********************* Home - START *************************/
+var Home = React.createClass({
+  render: function(){
+    return (
+      <div>
+          This is a single page app. 
       </div>
     );
   }
 });
 
-app = ReactDOM.render(<App />, document.getElementById('app'));
+/********************* Home - END *************************/
+var Dom = React.createClass({
+  render: function (){
+    return (
+      <div>
+        <header>
+          <h1>MERN Stack</h1>
+          <div>
+            <ul className="header">
+                <li><IndexLink to="/">Home</IndexLink></li>
+                <li><Link to="/workorder">Work Order</Link></li>
+            </ul>
+          </div>
+        </header>
+        <main>
+          {this.props.children}
+        </main>
+        <footer>
+            <p>Powered by Node JS + Express + React + MongoDB</p>
+            <p>R.T. @ 2016</p>
+        </footer> 
+      </div>
+    );
+  }
+}); 
+
+
+var { Router,
+      Route,
+      IndexRoute,
+      IndexLink,
+      Link } = ReactRouter;
+
+
+app = ReactDOM.render(
+  // Using browserHistory for removing # from URL 
+  // Caused problem that can't refresh page.
+  // history={browserHistory}
+  <Router> 
+    <Route path="/" component={Dom}>
+      <IndexRoute component={Home}/>
+      <Route path="workorder" component={WorkOrder} />
+    </Route>
+  </Router>,
+
+  document.getElementById('app')
+);
+
+
+// PrograssBar
+var h = setInterval(frame, 10);
+var width = 0;
+function frame() {
+    if (width >= 100) {
+        clearInterval(h);
+    } else {
+        width++; 
+        //app.refs.prograssBar.setProgress(width+'%');
+    }
+}
 
 
 // socket.io

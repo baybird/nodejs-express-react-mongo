@@ -7,7 +7,6 @@ var func = require('../libs/functions');
 // Using MongoDB
 var db = require( '../libs/mongo' );
 var collection = db.collection('works');
-
 var ObjectID = require('mongodb').ObjectID;
 
 // Get one order
