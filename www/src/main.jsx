@@ -1,7 +1,9 @@
 'use strict';
 
+
+var app; // To declare app as a global variable
+
 /********************* Work order - START *************************/
-var Dom; // To declare WorkOrder as a global variable
 
 /******************* List *************************/
 var WorkList = React.createClass({
@@ -474,7 +476,9 @@ var Description = React.createClass({
   }
 });
 
-/********************* Contact - END *************************/
+/********************* Description - END *************************/
+
+
 var Home = React.createClass({
   render: function (){
     return (
@@ -499,7 +503,6 @@ var Home = React.createClass({
     );
   }
 }); 
-
 
 var { Router,
       Route,

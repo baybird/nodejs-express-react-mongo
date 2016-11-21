@@ -28,8 +28,8 @@ app.set('view engine', 'pug');
 
 
 // Using routers
-var router_work_api  = require('./router/work-api');
-app.use('/api', router_work_api);
+var rest_api  = require('./router/api');
+app.use('/api', rest_api);
 
 var router_page = require('./router/page');
 app.use('/',router_page);
