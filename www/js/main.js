@@ -1,8 +1,8 @@
 'use strict';
 
-/********************* Work order - START *************************/
+var app; // To declare app as a global variable
 
-var Dom; // To declare WorkOrder as a global variable
+/********************* Work order - START *************************/
 
 /******************* List *************************/
 var WorkList = React.createClass({
@@ -517,7 +517,7 @@ var PrograssBar = React.createClass({
 
   getInitialState: function getInitialState() {
     return {
-      width: '0%'
+      width: 0
     };
   },
 
@@ -525,16 +525,38 @@ var PrograssBar = React.createClass({
     this.setState({ width: progress });
   },
 
-  render: function render() {
-    var width = this.state.width;
+  componentDidMount: function componentDidMount() {
+    var intervalId = setInterval(this.timer, 10);
+    this.setState({ intervalId: intervalId });
 
-    if (width == '100%') {
+    //console.log("Start interval");
+    //console.log("init. width:" + this.state.width);     
+  },
+
+  componentWillUnmount: function componentWillUnmount() {
+    //console.log("Remove intervalId");
+  },
+
+  timer: function timer() {
+    if (this.state.width < 100) {
+      this.setState({ width: this.state.width + 1 });
+      //console.log("width:" + this.state.width);
+    } else {
+      clearInterval(this.state.intervalId);
+      //console.log("Remove intervalId");
+    }
+  },
+
+  render: function render() {
+    var w = this.state.width;
+
+    if (this.state.width == '100') {
       return React.createElement('div', null);
     } else {
       return React.createElement(
         'div',
         { className: 'prograssBar' },
-        React.createElement('div', { className: 'bar', style: { width: width } })
+        React.createElement('div', { className: 'bar', style: { width: w + "%" } })
       );
     }
   }
@@ -634,13 +656,19 @@ var Description = React.createClass({
   render: function render() {
     return React.createElement(
       'div',
-      { className: 'description' },
-      'This is a demo of single page app that built based on NodeJS, React JS, MongoDB and Express.'
+      null,
+      React.createElement(PrograssBar, { ref: 'prograssBar' }),
+      React.createElement(
+        'div',
+        { className: 'description' },
+        'This is a demo of single page app that built based on NodeJS, React JS, MongoDB and Express.'
+      )
     );
   }
 });
 
-/********************* Contact - END *************************/
+/********************* Description - END *************************/
+
 var Home = React.createClass({
   displayName: 'Home',
 
@@ -732,16 +760,8 @@ React.createElement(
 ), document.getElementById('app'));
 
 // PrograssBar
-var h = setInterval(frame, 10);
+//var h = setInterval(frame, 10);
 var width = 0;
-function frame() {
-  if (width >= 100) {
-    clearInterval(h);
-  } else {
-    width++;
-    //app.refs.prograssBar.setProgress(width+'%');
-  }
-}
 
 // socket.io
 var socket = io();
@@ -749,8 +769,6 @@ var socket = io();
 // receving message
 socket.on('send_chat_message', function (msg) {
   console.log('receving...');
-
   $('#chat_history').append('<p class="received">' + msg + '<p>');
-
   $('#chat_area').slideDown("slow");
 });

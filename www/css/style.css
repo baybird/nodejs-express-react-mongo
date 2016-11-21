@@ -251,7 +251,7 @@ select{
 }
 .prograssBar .bar {
     background: #09f4f0;
-    height: 2px;
+    height: 3px;
 }
 /******************Table theme**********************/
 .list {

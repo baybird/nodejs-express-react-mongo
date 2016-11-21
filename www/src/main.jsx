@@ -382,7 +382,7 @@ var Dialog = React.createClass({
 var PrograssBar = React.createClass({
   getInitialState: function(){
     return({
-      width: '0%'
+      width: 0
     });
   },
 
@@ -390,15 +390,37 @@ var PrograssBar = React.createClass({
     this.setState({width: progress});
   },
 
-  render: function(){
-    let width = this.state.width;
+  componentDidMount: function() {
+     var intervalId = setInterval(this.timer, 10);
+     this.setState({intervalId: intervalId});
 
-    if (width == '100%'){
+     //console.log("Start interval");
+     //console.log("init. width:" + this.state.width);     
+  },
+
+  componentWillUnmount: function() {
+     //console.log("Remove intervalId");
+  },
+
+  timer: function() {
+    if(this.state.width<100){
+      this.setState({ width: this.state.width + 1 });
+      //console.log("width:" + this.state.width);
+    }else{
+      clearInterval(this.state.intervalId);
+      //console.log("Remove intervalId");
+    }
+  },
+
+  render: function(){
+    let w = this.state.width;
+
+    if (this.state.width == '100'){
       return (<div></div>);
     }else{
       return (
         <div className="prograssBar">
-          <div className="bar" style={{width: width}}></div>
+          <div className="bar" style={{width: w+"%"}}></div>
         </div>
       )      
     }
@@ -469,8 +491,11 @@ var WorkOrder = React.createClass({
 var Description = React.createClass({
   render: function(){
     return (
-      <div className="description">
-          This is a demo of single page app that built based on NodeJS, React JS, MongoDB and Express.
+      <div>
+        <PrograssBar ref="prograssBar"/>
+        <div className="description">
+            This is a demo of single page app that built based on NodeJS, React JS, MongoDB and Express.
+        </div>
       </div>
     );
   }
@@ -526,18 +551,10 @@ app = ReactDOM.render(
   document.getElementById('app')
 );
 
-
 // PrograssBar
-var h = setInterval(frame, 10);
+//var h = setInterval(frame, 10);
 var width = 0;
-function frame() {
-    if (width >= 100) {
-        clearInterval(h);
-    } else {
-        width++; 
-        //app.refs.prograssBar.setProgress(width+'%');
-    }
-}
+
 
 
 // socket.io
@@ -545,9 +562,7 @@ var socket = io();
 
 // receving message
 socket.on('send_chat_message', function(msg){
-  console.log('receving...');
-  
+  console.log('receving...');  
   $('#chat_history').append('<p class="received">'+msg+'<p>');
-
   $('#chat_area').slideDown("slow");
 });
