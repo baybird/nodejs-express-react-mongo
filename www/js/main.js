@@ -1,7 +1,7 @@
 'use strict';
 
 var app; // To declare app as a global variable
-
+var WorkOrder;
 /********************* Work order - START *************************/
 
 /******************* List *************************/
@@ -17,7 +17,6 @@ var WorkList = React.createClass({
   },
 
   sort: function sort(field) {
-
     if (this.state.hasOwnProperty('sortingKey')) {
       sortingKeyArr = this.state.sortingKey;
     } else {
@@ -82,7 +81,7 @@ var WorkList = React.createClass({
 
   updateOrder: function updateOrder(id) {
     //console.log('update '+ id);
-    ReactDOM.render(React.createElement(Dialog, { orderId: id }), document.getElementById('dialog_area'));
+    ReactDOM.render(React.createElement(Dialog, { orderId: id, apiGetList: this.apiGetList }), document.getElementById('dialog_area'));
   },
 
   // Called before rendering on both server and client side.
@@ -311,6 +310,7 @@ var Dialog = React.createClass({
   displayName: 'Dialog',
 
   getInitialState: function getInitialState() {
+
     var that = this;
 
     if (this.props.orderId) {
@@ -359,7 +359,8 @@ var Dialog = React.createClass({
         }
       }).done(function (ret) {
         if (ret.status == true) {
-          WorkOrder.refs.worklist.apiGetList(); // Call list api
+          //WorkOrder.refs.worklist.apiGetList();// Call list api
+          that.props.apiGetList();
           that.closeDialog(); // Close dialog
         } else {
           alert(ret.message);
@@ -378,7 +379,7 @@ var Dialog = React.createClass({
         }
       }).done(function (ret) {
         if (ret.status == true) {
-          WorkOrder.refs.worklist.apiGetList(); // Call list api
+          that.props.apiGetList(); // Call list api
           that.closeDialog(); // Close dialog
         } else {
           alert(ret.message);
@@ -394,6 +395,8 @@ var Dialog = React.createClass({
   },
 
   render: function render() {
+    console.log(this.props);
+
     var prioritys = ['Low', 'Medium', 'High'];
     var status = ['Active', 'Closed', 'On hold'];
 
@@ -562,7 +565,7 @@ var PrograssBar = React.createClass({
   }
 });
 
-var WorkOrder = React.createClass({
+WorkOrder = React.createClass({
   displayName: 'WorkOrder',
 
   getInitialState: function getInitialState() {
@@ -591,7 +594,7 @@ var WorkOrder = React.createClass({
 
   addNew: function addNew() {
     //console.log('render dialog');  
-    ReactDOM.render(React.createElement(Dialog, null), document.getElementById('dialog_area'));
+    ReactDOM.render(React.createElement(Dialog, { apiGetList: this.refs.worklist.apiGetList }), document.getElementById('dialog_area'));
   },
 
   render: function render() {
@@ -669,8 +672,9 @@ var Description = React.createClass({
 
 /********************* Description - END *************************/
 
-var Home = React.createClass({
-  displayName: 'Home',
+var Demo = React.createClass({
+  displayName: 'Demo',
+
 
   render: function render() {
     return React.createElement(
@@ -752,7 +756,7 @@ React.createElement(
   { history: hashHistory },
   React.createElement(
     Route,
-    { path: '/', component: Home },
+    { path: '/', component: Demo },
     React.createElement(IndexRoute, { component: WorkOrder }),
     React.createElement(Route, { path: 'description', component: Description }),
     React.createElement(Route, { path: 'workorder', component: WorkOrder })

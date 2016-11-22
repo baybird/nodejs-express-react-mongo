@@ -1,6 +1,10 @@
+// Create instance of express
 var express = require('express');
+
+// Create instance of express router
 var router = express.Router();
 
+// requiure js function file
 var func = require('../libs/functions');
 
 
@@ -190,8 +194,6 @@ router.put('/update', function(req, res, next){
           if(err){
             throw err;
           }
-
-
 
           //var ret = {status: reStatus, message: reMessage};
           //res.send(ret);

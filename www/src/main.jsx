@@ -2,7 +2,7 @@
 
 
 var app; // To declare app as a global variable
-
+var WorkOrder
 /********************* Work order - START *************************/
 
 /******************* List *************************/
@@ -16,7 +16,6 @@ var WorkList = React.createClass({
   },
 
   sort:function(field){  
-
     if(this.state.hasOwnProperty('sortingKey') ){
       sortingKeyArr = this.state.sortingKey;
     }else{
@@ -82,7 +81,7 @@ var WorkList = React.createClass({
 
   updateOrder: function(id){
     //console.log('update '+ id);
-    ReactDOM.render(<Dialog orderId = {id}/>, document.getElementById('dialog_area'));
+    ReactDOM.render(<Dialog orderId = {id} apiGetList={this.apiGetList} />, document.getElementById('dialog_area'));
   },
 
   // Called before rendering on both server and client side.
@@ -235,6 +234,7 @@ var Chat = React.createClass({
 /********************* Dialog ****************************/
 var Dialog = React.createClass({
   getInitialState : function(){
+    
     var that = this;
 
     if (this.props.orderId) {
@@ -283,7 +283,8 @@ var Dialog = React.createClass({
         }
       }).done(function(ret){
         if(ret.status==true){
-          WorkOrder.refs.worklist.apiGetList();// Call list api
+          //WorkOrder.refs.worklist.apiGetList();// Call list api
+          that.props.apiGetList();
           that.closeDialog();// Close dialog
         }else{
           alert(ret.message);
@@ -301,15 +302,13 @@ var Dialog = React.createClass({
         }
       }).done(function(ret){
         if(ret.status==true){
-          WorkOrder.refs.worklist.apiGetList();// Call list api
+          that.props.apiGetList();// Call list api
           that.closeDialog();// Close dialog
         }else{
           alert(ret.message);
         }
       })    
     }
-
-
   },
 
   // Called after rendering.
@@ -319,6 +318,8 @@ var Dialog = React.createClass({
   },
 
   render: function() {
+    console.log(this.props);
+
     var prioritys = ['Low','Medium', 'High'];
     var status    = ['Active','Closed','On hold'];
     
@@ -378,7 +379,6 @@ var Dialog = React.createClass({
   }
 });
 
-
 var PrograssBar = React.createClass({
   getInitialState: function(){
     return({
@@ -428,8 +428,7 @@ var PrograssBar = React.createClass({
   }
 });
 
-
-var WorkOrder = React.createClass({
+WorkOrder = React.createClass({
   getInitialState: function(){
     return ({
       keyword:"",
@@ -456,9 +455,11 @@ var WorkOrder = React.createClass({
 
   addNew: function(){
     //console.log('render dialog');  
-    ReactDOM.render(<Dialog />, document.getElementById('dialog_area'));
+    ReactDOM.render(
+      <Dialog apiGetList={this.refs.worklist.apiGetList} />, 
+      document.getElementById('dialog_area')
+    );
   },
-
 
   render: function(){
     return (
@@ -503,8 +504,8 @@ var Description = React.createClass({
 
 /********************* Description - END *************************/
 
+var Demo = React.createClass({
 
-var Home = React.createClass({
   render: function (){
     return (
       <div>
@@ -541,7 +542,7 @@ app = ReactDOM.render(
   // Caused problem that can't refresh page.
   // history={browserHistory}
   <Router history={hashHistory}> 
-    <Route path="/" component={Home}>
+    <Route path="/" component={Demo}>
       <IndexRoute component={WorkOrder} />
       <Route path="description" component={Description}/> 
       <Route  path="workorder" component={WorkOrder} />     
