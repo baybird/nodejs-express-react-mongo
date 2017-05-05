@@ -1,7 +1,7 @@
 {
-  "name": "test",
+  "name": "Workorder",
   "version": "1.0.0",
-  "description": "Test project for using MongoDB, Express, React and Node.JS",
+  "description": "Workorder system",
   "main": "main.js",
   "author": "Robert",
   "license": "ISC",
